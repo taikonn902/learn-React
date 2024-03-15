@@ -8,12 +8,15 @@ root {
 
 html {
     font-size: 62.5%;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
 
 body {
     font-family: 'Montserrat', sans-serif;
     font-size: 1.6rem;
-    line-height: 1.5;
+    // line-height: 1.5;
     text-rendering: optimizeSpeed;
 }
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 // import classNames from 'classnames';
 
 import style from './Header.module.scss';
@@ -8,9 +8,22 @@ import { faCircleXmark } from '@fortawesome/free-regular-svg-icons';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
+import Tippy from '@tippyjs/react/headless'; //tippy
+
+import { Wrapper as PopperWrapper } from '~/components/Popper'; //PopperWrapper
+import AccountItem from '~/components/AccountItem';
+
 // const cx = classNames.bind(style);
 
 function Header() {
+    const [searchResult, setSearchResult] = useState([]);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setSearchResult([]);
+        });
+    }, []);
+
     return (
         <header className={style.wrapper}>
             <div className={style.inner}>
@@ -51,18 +64,36 @@ function Header() {
                     </svg>
                 </div>
 
-                <div className={style.searchBox}>
-                    <input placeholder="Search accounts and videos" spellCheck={false} />
-                    <button className={style.clear}>
-                        <FontAwesomeIcon icon={faCircleXmark} />
-                    </button>
-                    <button className={style.loading}>
-                        <FontAwesomeIcon icon={faSpinner} />
-                    </button>
-                    <button className={style.searchBtn}>
-                        <FontAwesomeIcon icon={faMagnifyingGlass} />
-                    </button>
-                </div>
+                <Tippy
+                    interactive
+                    visible={searchResult.length > 0}
+                    render={(attrs) => (
+                        <div className={style.searchResult} tabIndex="-1" {...attrs}>
+                            <PopperWrapper>
+                                <h4 className={style.searchTitle}>Accounts</h4>
+
+                                <AccountItem />
+                                <AccountItem />
+                                <AccountItem />
+                                <AccountItem />
+                            </PopperWrapper>
+                        </div>
+                    )}
+                >
+                    <div className={style.searchBox}>
+                        <input placeholder="Search accounts and videos" spellCheck={false} />
+                        <button className={style.clear}>
+                            <FontAwesomeIcon icon={faCircleXmark} />
+                        </button>
+                        {/* <button className={style.loading}>
+                            <FontAwesomeIcon icon={faSpinner} />
+                        </button> */}
+
+                        <button className={style.searchBtn}>
+                            <FontAwesomeIcon icon={faMagnifyingGlass} />
+                        </button>
+                    </div>
+                </Tippy>
 
                 <div className={style.actions}>
                     {/* upload */}
